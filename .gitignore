@@ -2,6 +2,8 @@
 # Edit at https://www.toptal.com/developers/gitignore?templates=eclipse
 
 ### Eclipse ###
+
+target/
 .metadata
 bin/
 tmp/
