@@ -1,1 +1,4 @@
-/.settings/*
+.settings/
+build/
+*.class
+target/
