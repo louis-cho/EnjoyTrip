@@ -21,15 +21,15 @@ export class enjoyTripUIDlgLogin {
               height: "auto",
               width: "auto",
               modal: false,
-              closeOnEscape: false,
+              closeOnEscape: true,
               resizable: false,
               title: "로그인",
               buttons: {
                   "Close": function () {
                 	  enjoyTripUIDlgLogin.I._dialog.dialog("close");
                   },
-                  "Regist": function () {
-                	  enjoyTripUIDlgLogin.I.OnRegist();
+                  "Login": function () {
+                	  enjoyTripUIDlgLogin.I.OnLogin();
                   }
               },
               close: function () {
@@ -37,15 +37,20 @@ export class enjoyTripUIDlgLogin {
               }
         });
         
+        this._id_input = document.getElementById(name + "_login_id");
+        this._pw_input = document.getElementById(name + "_login_password");
+        
 	}
 	
 	  /**
      * 설정값을 적용한다
      * */
-    OnRegist() {
-
+    OnLogin() {
+    	
+    	this._app.MenuLogin(this._id_input.value, this._pw_input.value);
         this.UpdateUI();
         this._app.UpdateUIState();
+        this.CloseDialog();
     };
     
 	 /**
@@ -65,30 +70,21 @@ export class enjoyTripUIDlgLogin {
     _appElementHTML(name) {
 
         var ihtml = [];
-
         var idx = 0;
 
-        
-        
-ihtml[idx++] = '<div id="dialog-form" title="Create new user">';
-ihtml[idx++] = '<p class="validateTips">All form fields are required.</p>';
-       
-ihtml[idx++] = '<form>';
-ihtml[idx++] = '<fieldset>';
-ihtml[idx++] = '<label for="name">Name</label>';
-ihtml[idx++] = '     <input type="text" name="name" id="name" value="Jane Smith" class="text ui-widget-content ui-corner-all">';
-ihtml[idx++] = '     <label for="email">Email</label>';
-ihtml[idx++] = '     <input type="text" name="email" id="email" value="jane@smith.com" class="text ui-widget-content ui-corner-all">';
-ihtml[idx++] = '     <label for="password">Password</label>';
-ihtml[idx++] = '     <input type="password" name="password" id="password" value="xxxxxxx" class="text ui-widget-content ui-corner-all">';
-       
-ihtml[idx++] = '     <input type="submit" tabindex="-1" style="position:absolute; top:-1000px">';
-ihtml[idx++] = '   </fieldset>';
-ihtml[idx++] = ' </form>';
-ihtml[idx++] = '</div>';
+		ihtml[idx++] = '<div id="dialog-form" title="Create new user">';
+		ihtml[idx++] = '	<p class="validateTips">All form fields are required.</p>';   
+		ihtml[idx++] = '	<form>';
+		ihtml[idx++] = '		<fieldset>';
+		ihtml[idx++] = '			<label for="name">ID</label>';
+		ihtml[idx++] = '     		<input type="text" name="id" id="' + name + '_login_id" value="아이디" class="text ui-widget-content ui-corner-all">';
+		ihtml[idx++] = '     		<label for="password">Password</label>';
+		ihtml[idx++] = '     		<input type="password" name="password" id="' + name + '_login_password" value="xxxxxxx" class="text ui-widget-content ui-corner-all">';
+		ihtml[idx++] = '     		<input type="submit" tabindex="-1" style="position:absolute; top:-1000px">';
+		ihtml[idx++] = '   		</fieldset>';
+		ihtml[idx++] = ' 	</form>';
+		ihtml[idx++] = '</div>';
    
-
-
 
         return ihtml.join("");
     };
@@ -112,6 +108,8 @@ ihtml[idx++] = '</div>';
         this._dialog.dialog("close");
         this._app.UpdateUIState();
     }
+    
+    
 
 }
 
