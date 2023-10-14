@@ -1,17 +1,24 @@
 // dialog import
 import { enjoyTripUIDlgRegist } from './page/user/enjoyTripUIDlgRegist.js';
 import { enjoyTripUIDlgLogin } from './page/user/enjoyTripUIDlgLogin.js';
+import { enjoyTripUI } from './enjoyTripUI.js';
 
 export class  enjoyTripUIApp {
 	 constructor(name, div_elem, is_portlet, is_viewer) {
-
+		 	
+		 	new enjoyTripUI();
+		 	
 	        // 앱 버전
 	        this._version = "v0.1";
 	        // 앱 이름
 	        this._name = name;
 
 	        this._title = document.title;
-
+	        
+	        this._user = {
+	        		name: enjoyTripUI.getCookie("name"),
+	        		isLoggedIn: false
+	        };
 	        // 앱 루트 HTML DIV
 	        this._div = div_elem;
 
@@ -43,15 +50,23 @@ export class  enjoyTripUIApp {
 	        	enjoyTripUIApp.I._dlgLogin.ShowDialog();
 	        });
 	        
-	        this._user = {
-	        		name: "",
-	        		isLoggedIn: false
-	        };
+
 	 }
 	 
 	 UpdateUIState() {}
 	 
-	 UpdateUI(){}
+	 UpdateUI(){
+		 // 로그인한 경우
+		 	/**
+		 	 * 회원정보 버튼 보이기
+		 	 * 로그아웃 버튼 보이기
+		 	 */
+		 // 로그인하지 않은 경우
+			 /**
+			  * 로그인 버튼 보이기
+			  * 회원가입 버튼 보이기
+			  */
+	 }
 	 
 	 _appElementHTML(name) {
 
@@ -75,7 +90,8 @@ export class  enjoyTripUIApp {
 	        return ihtml.join("");
 	    }
 	 
-	 async MenuLogin(id, password) {
+	 async MenuLogin(id, password, keep) {
+		 console.log("keep >> " + keep);
 		 // 서버에게 요청 보내기
 		 console.log("app MenuLogin() >> " + id + ": " + password);
 		 
@@ -95,18 +111,29 @@ export class  enjoyTripUIApp {
 		 if(rcvMsg.msg == "LoginOK") {
 			 console.log("로그인 성공");
 			 console.log(rcvMsg);
+			 
 			 enjoyTripUIApp.I._user = {
 					 name: rcvMsg.name,
+					 id: id,
 					 isLoggedIn: true
 			 };
+			 
+			 if(keep == true) {
+				 enjoyTripUI.setCookie("keep", keep);
+			 } else {
+				 enjoyTripUI.deleteCookie("keep");
+			 }
+			 
 			 
 			 // UI Update 수행하기
 			 console.log("로그인한 유저 >> " + enjoyTripUIApp.I._user.name);
 		 } else {
+			 enjoyTripUI.deleteCookie("keep");
 			 enjoyTripUIApp.I._user = null;
 			 alert("일치하는 사용자가 없습니다. 올바른 아이디와 비밀번호를 입력해주세요.");
 		 }
 		 } catch(e) {
+			 enjoyTripUI.deleteCookie("keep");
 			 enjoyTripUIApp.I._user = null;
 			 alert(`${e.name}: ${e.message}`);
 		 }
@@ -116,6 +143,5 @@ export class  enjoyTripUIApp {
 	 MenuFetchPublicKey() {
 		 
 	 }
-	 
 	 
 }

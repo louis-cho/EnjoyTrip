@@ -1,3 +1,5 @@
+import { enjoyTripUI } from '../../enjoyTripUI.js';
+
 export class enjoyTripUIDlgLogin {
 	
 
@@ -15,6 +17,10 @@ export class enjoyTripUIDlgLogin {
         enjoyTripUIDlgLogin.I = this;
         
         this._div.innerHTML = this._appElementHTML(name);
+
+        this._id_input = document.getElementById(name + "_login_id");
+        this._pw_input = document.getElementById(name + "_login_password");
+        this._keep_input = document.getElementById(name + "_login_keep");
         
         this._dialog = $(this._div).dialog({
         	  autoOpen: false,
@@ -37,8 +43,6 @@ export class enjoyTripUIDlgLogin {
               }
         });
         
-        this._id_input = document.getElementById(name + "_login_id");
-        this._pw_input = document.getElementById(name + "_login_password");
         
 	}
 	
@@ -47,7 +51,7 @@ export class enjoyTripUIDlgLogin {
      * */
     OnLogin() {
     	
-    	this._app.MenuLogin(this._id_input.value, this._pw_input.value);
+    	this._app.MenuLogin(this._id_input.value, this._pw_input.value, this._keep_input.checked);
         this.UpdateUI();
         this._app.UpdateUIState();
         this.CloseDialog();
@@ -57,7 +61,8 @@ export class enjoyTripUIDlgLogin {
      * UI를 갱신한다
      * */
     UpdateUI() {
-
+    	this._id_input.value = "";
+    	this._pw_input.value = "";
         this._app.UpdateUI();
     };
 
@@ -76,10 +81,16 @@ export class enjoyTripUIDlgLogin {
 		ihtml[idx++] = '	<p class="validateTips">All form fields are required.</p>';   
 		ihtml[idx++] = '	<form>';
 		ihtml[idx++] = '		<fieldset>';
-		ihtml[idx++] = '			<label for="name">ID</label>';
-		ihtml[idx++] = '     		<input type="text" name="id" id="' + name + '_login_id" value="아이디" class="text ui-widget-content ui-corner-all">';
-		ihtml[idx++] = '     		<label for="password">Password</label>';
-		ihtml[idx++] = '     		<input type="password" name="password" id="' + name + '_login_password" value="xxxxxxx" class="text ui-widget-content ui-corner-all">';
+		ihtml[idx++] = ' 			<div>';
+		ihtml[idx++] = '				<label for="name">ID</label>';
+		ihtml[idx++] = '     			<input type="text" name="id" id="' + name + '_login_id" placeholder="아이디" class="text ui-widget-content ui-corner-all">';
+		ihtml[idx++] = '     			<label for="password">Password</label>';
+		ihtml[idx++] = '     			<input type="password" name="password" id="' + name + '_login_password" placeholder="xxxxxxx" class="text ui-widget-content ui-corner-all">';
+		ihtml[idx++] = '			</div>';
+		ihtml[idx++] = ' 			<div>';
+		ihtml[idx++] = '				<label for="keeplogin">아이디 저장</label>';
+		ihtml[idx++] = '				<input type="checkbox" name="keeplogin" id="' + name + '_login_keep">';
+		ihtml[idx++] = '			</div>';
 		ihtml[idx++] = '     		<input type="submit" tabindex="-1" style="position:absolute; top:-1000px">';
 		ihtml[idx++] = '   		</fieldset>';
 		ihtml[idx++] = ' 	</form>';
@@ -95,8 +106,11 @@ export class enjoyTripUIDlgLogin {
     ShowDialog() {
         if (this._show)
             return;
-
+        
         this.UpdateUI();
+        if(this._app._user.name && enjoyTripUI.getCookie("keep") == "true") {
+        	this._id_input.value = this._app._user.id;
+        }
         this._dialog.dialog("open");
         this._show = true;
     }
@@ -106,8 +120,10 @@ export class enjoyTripUIDlgLogin {
      * */
     CloseDialog() {
         this._dialog.dialog("close");
+        this._id_input.value = "";
         this._app.UpdateUIState();
     }
+
     
     
 
