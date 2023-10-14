@@ -3,13 +3,22 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<!-- <link rel="stylesheet" href="./css/app.css"> -->
+<link rel="stylesheet" href="./css/app.css">
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css" />
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 <title>EnjoyTrip</title>
 </head>
 <body>
-	<div id="root"></div>
+<div id="tripapp" style="width:100%;height:100%;overflow-x:hidden;overflow-y:hidden;"></div>
+<script type="module">
+        import { enjoyTripUIApp } from './js/enjoyTripUIApp.js';
+
+        
+        var dap = document.getElementById("tripapp");
+        var app = new enjoyTripUIApp("tripapp", dap, false);
+    </script>
 </body>
-<script type="module" src="./js/page/index.js"></script>
-<script type="module" src="./js/common/header.js"></script>
-<script type="module" src="./js/common/footer.js"></script>
 </html>
