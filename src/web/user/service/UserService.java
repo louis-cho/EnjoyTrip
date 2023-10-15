@@ -7,7 +7,7 @@ import web.user.dto.User;
 
 public interface UserService {
 
-	public int signUp(User userDto) throws Exception;
+	public int regist(User userDto) throws Exception;
 
 	public void checkUserid(String userid) throws Exception;
 

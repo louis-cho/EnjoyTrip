@@ -15,6 +15,10 @@ export class enjoyTripUIDlgRegist {
         enjoyTripUIDlgRegist.I = this;
         
         this._div.innerHTML = this._appElementHTML(name);
+
+        this._name_input = document.getElementById(name + "_regist_name");
+        this._id_input = document.getElementById(name + "_regist_id");
+        this._pw_input = document.getElementById(name + "_regist_password");
         
         this._dialog = $(this._div).dialog({
         	  autoOpen: false,
@@ -36,23 +40,26 @@ export class enjoyTripUIDlgRegist {
             	  enjoyTripUIDlgRegist.I._show = false;
               }
         });
-        
+
 	}
 	
 	  /**
      * 설정값을 적용한다
      * */
     OnRegist() {
-
+    	this._app.MenuRegist(this._name_input.value, this._id_input.value, this._pw_input.value);
         this.UpdateUI();
         this._app.UpdateUIState();
+        this.CloseDialog();
     };
     
 	 /**
      * UI를 갱신한다
      * */
     UpdateUI() {
-
+    	this._name_input.value = "";
+    	this._id_input.value = "";
+    	this._pw_input.value = "";
         this._app.UpdateUI();
     };
 
@@ -70,22 +77,22 @@ export class enjoyTripUIDlgRegist {
 
         
         
-ihtml[idx++] = '<div id="dialog-form" title="Create new user">';
-ihtml[idx++] = '<p class="validateTips">All form fields are required.</p>';
-       
-ihtml[idx++] = '<form>';
-ihtml[idx++] = '<fieldset>';
-ihtml[idx++] = '<label for="name">Name</label>';
-ihtml[idx++] = '     <input type="text" name="name" id="name" value="Jane Smith" class="text ui-widget-content ui-corner-all">';
-ihtml[idx++] = '     <label for="email">Email</label>';
-ihtml[idx++] = '     <input type="text" name="email" id="email" value="jane@smith.com" class="text ui-widget-content ui-corner-all">';
-ihtml[idx++] = '     <label for="password">Password</label>';
-ihtml[idx++] = '     <input type="password" name="password" id="password" value="xxxxxxx" class="text ui-widget-content ui-corner-all">';
-       
-ihtml[idx++] = '     <input type="submit" tabindex="-1" style="position:absolute; top:-1000px">';
-ihtml[idx++] = '   </fieldset>';
-ihtml[idx++] = ' </form>';
-ihtml[idx++] = '</div>';
+		ihtml[idx++] = '<div id="dialog-form" title="Create new user">';
+		ihtml[idx++] = '<p class="validateTips">All form fields are required.</p>';
+		       
+		ihtml[idx++] = '<form>';
+		ihtml[idx++] = '<fieldset>';
+		ihtml[idx++] = '<label for="name">Name</label>';
+		ihtml[idx++] = '     <input type="text" name="name" id="' + name + '_regist_name" placeholder="name" class="text ui-widget-content ui-corner-all">';
+		ihtml[idx++] = '     <label for="email">Id</label>';
+		ihtml[idx++] = '     <input type="text" name="id" id="'+ name + '_regist_id" placeholder="id" class="text ui-widget-content ui-corner-all">';
+		ihtml[idx++] = '     <label for="password">Password</label>';
+		ihtml[idx++] = '     <input type="password" name="password" id="' + name + '_regist_password" placeholder="xxxxxxx" class="text ui-widget-content ui-corner-all">';
+		       
+		ihtml[idx++] = '     <input type="submit" tabindex="-1" style="position:absolute; top:-1000px">';
+		ihtml[idx++] = '   </fieldset>';
+		ihtml[idx++] = ' </form>';
+		ihtml[idx++] = '</div>';
    
 
 

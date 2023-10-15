@@ -40,13 +40,14 @@ public class UserDaoImpl implements UserDao {
 	public String login(User user) throws Exception {
 		Connection con = null;
 		PreparedStatement stmt = null;
+		ResultSet rs = null;
 		try {
 			con = DBUtil.getInstance().getConnection();
 			stmt = con.prepareStatement("select name from members where id=? and pw=?");
 			stmt.setString(1, user.getId());
 			stmt.setString(2, user.getPassword());
 
-			ResultSet rs = stmt.executeQuery();
+			rs = stmt.executeQuery();
 			if (rs.next()) {
 				String id = rs.getString(1);
 				System.out.println("성공적으로 id >> " + id + " 반환 UserDaoImpl");
@@ -57,11 +58,39 @@ public class UserDaoImpl implements UserDao {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			DBUtil.getInstance().close(stmt, con);
+			DBUtil.getInstance().close(rs, stmt, con);
 		}
 
 		return null;
 	}
+	
+	@Override
+	public int regist(User userDto) throws Exception {
+		Connection con = null;
+		PreparedStatement stmt = null;
+		try {
+			con = DBUtil.getInstance().getConnection();
+			stmt = con.prepareStatement("insert into members(id,pw,name) values(?,?,?)");
+			stmt.setString(1, userDto.getId());
+			stmt.setString(2, userDto.getPassword());
+			stmt.setString(3, userDto.getName());
+			
+			int ret = stmt.executeUpdate();
+			if(ret == 1) {
+				System.out.println("정상적으로 등록 완료");
+			} else {
+				throw new Exception("회원 등록 도중 에러 발생");
+			}
+			 return ret;
+		} catch(SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DBUtil.getInstance().close(stmt, con);
+		}
+		
+		return -1;
+	}
+
 
 	@Override
 	public String getUserPassword(String userid) throws Exception {
@@ -79,5 +108,6 @@ public class UserDaoImpl implements UserDao {
 	public byte[] getSeckey(String userid) throws Exception {
 		return null;
 	}
+
 
 }

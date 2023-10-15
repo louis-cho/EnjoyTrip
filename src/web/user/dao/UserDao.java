@@ -16,4 +16,6 @@ public interface UserDao {
 	
 	public byte[] getSeckey(String userid) throws Exception;
 
+	public int regist(User userDto) throws Exception;
+
 }

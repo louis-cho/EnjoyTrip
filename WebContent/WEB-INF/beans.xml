@@ -2,4 +2,5 @@
 
 <beans>
     <bean class="web.user.controller.LoginCommand" id="login" />
+    <bean class="web.user.controller.RegistCommand" id="regist" />
 </beans>
